@@ -222,9 +222,9 @@ const jurisdictions = {
     { id: "westfargo", name: "West Fargo", note: "Local FOG" }
   ],
   sd: [
-    { id: "sd-state", name: "Statewide (UPC)", note: "Some cities use IPC" },
-    { id: "siouxfalls", name: "Sioux Falls", note: "Often IPC; verify local" },
-    { id: "rapidcity", name: "Rapid City", note: "Verify local code" },
+    { id: "sd-state", name: "Statewide (UPC)", note: "Confirm local code" },
+    { id: "siouxfalls", name: "Sioux Falls", note: "Verify local code" },
+    { id: "rapidcity", name: "Rapid City", note: "2015 UPC (city code)" },
     { id: "aberdeen", name: "Aberdeen", note: "Local adoption" },
     { id: "brookings", name: "Brookings", note: "Local FOG" },
     { id: "watertown", name: "Watertown", note: "Local FOG requirements" },
@@ -409,9 +409,9 @@ const details = {
   },
   "sd-state": {
     title: "South Dakota Statewide",
-    summary: "Statewide UPC. Larger cities may adopt IPC. Always confirm the city.",
+    summary: "Statewide UPC. Always confirm the edition and any local amendments with the city.",
     fixtures: [["3-Comp / Pot Sink", "Usually indirect", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Indirect", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["Sioux Falls and Rapid City often enforce IPC in addition to or instead of UPC.", "Verify local code and FOG rules before design.", "State plumbing code: 2024 UPC with state exceptions (ARSD 20:54:02:01; adopted effective Oct 28, 2025)."]
+    notes: ["Rapid City's municipal code adopts the 2015 UPC (RCMC 15.24.010); the state code is the 2024 UPC, so confirm with the city which edition it enforces.", "Sioux Falls: confirm the adopted plumbing code with the city.", "Verify local code and FOG rules before design.", "State plumbing code: 2024 UPC with state exceptions (ARSD 20:54:02:01; adopted effective Oct 28, 2025)."]
   },
   "wy-state": {
     title: "Wyoming Statewide",
