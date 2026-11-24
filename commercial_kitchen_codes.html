@@ -47,6 +47,7 @@
   <div>
     <h1>Plumbing Code Reference</h1>
     <div class="subtitle">Commercial Kitchen Drainage Systems — State & Local</div>
+    <div class="subtitle">Last reviewed: November 24, 2026</div>
   </div>
 </header>
 
@@ -123,7 +124,7 @@ const jurisdictions = {
     { id: "minnetonka", name: "Minnetonka", note: "Local FOG" },
     { id: "edina", name: "Edina", note: "Local FOG" },
     { id: "stcloud", name: "St. Cloud", note: "Local FOG" },
-    { id: "roseville", name: "Roseville", note: "FOG ordinance; 30-90 day cleaning" },
+    { id: "roseville", name: "Roseville", note: "FOG ordinance; interceptors ≤90-day cleaning" },
     { id: "baxter", name: "Baxter", note: "Outdoor gravity preferred; traps restricted" },
     { id: "shakopee", name: "Shakopee", note: "1,000 gal minimum exterior" },
     { id: "redwing", name: "Red Wing", note: "Exterior gravity for new FSEs" },
@@ -251,15 +252,16 @@ const details = {
   // Minnesota
   "mn-state": {
     title: "Minnesota Statewide",
-    summary: "UPC with specific amendments. Allows direct connection of pot/scullery sinks and commercial dishwashers when an adjacent tell-tale floor drain is installed.",
-    fixtures: [["3-Comp / Pot Sink", "Direct + tell-tale floor drain", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Direct + tell-tale allowed", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
+    summary: "2020 Minnesota Plumbing Code (Minn. R. ch. 4714 = 2018 UPC with MN amendments, effective Dec 17, 2021). Pot/scullery and similar commercial sinks are connected directly with an adjacent tell-tale floor drain; commercial dishwashers go direct or through an air break.",
+    fixtures: [["3-Comp / Pot Sink", "Direct + tell-tale floor drain", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Direct + tell-tale, or air break", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
     notes: [
-      "Pot/scullery sinks and commercial dishwashers may connect directly if an adjacent floor drain (tell-tale) is installed so it backs up first.",
+      "Pot sinks, scullery sinks, commercial kitchen/dishwashing sinks, and commercial dishwashing machines shall be connected directly to the drainage system with an adjacent floor drain (tell-tale) that backs up first (MN Rules 4714.0704, UPC 704.3). Commercial dishwashers may alternatively discharge through an air break (4714.0414).",
       "Fixture drain must connect on the sewer side of the adjacent floor drain trap.",
       "Prep sinks and ice machines still require a full air gap (minimum twice the pipe diameter).",
       "Grease interceptor required for food service; size by DFU method per MN Rules 4714.",
       "Only greasy waste fixtures may discharge to the interceptor.",
-      "Interceptor must be readily accessible for inspection and maintenance."
+      "Interceptor must be readily accessible for inspection and maintenance.",
+      "Code edition: Minn. R. ch. 4714 incorporates the 2018 UPC (effective Dec 17, 2021). The Plumbing Board is reviewing the 2024 UPC; as of Nov 24, 2026 DLI lists no active rulemaking and no new effective date."
     ]
   },
   "wi-state": {
@@ -268,12 +270,13 @@ const details = {
     fixtures: [["3-Comp / Pot Sink", "Indirect (air gap/break)", "Grease"], ["Prep Sink", "Air gap; ≤30\" upstream", "Sanitary/Grease"], ["Dishwasher", "Air gap/break; ≤30\"", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
     notes: [
       "Wash compartment of scullery sinks and all pre-wash must discharge through the grease interceptor.",
-      "Rinse and sanitize compartments are sometimes allowed to bypass the interceptor.",
+      "Rinse and sanitize compartments and food waste grinders may bypass the interceptor only where interior interceptors are used; exterior interceptors receive all, and only, kitchen wastes (SPS 382.34(5)(b)1).",
       "Indirect waste piping limited to 30 inches upstream of the air gap or air break.",
       "Minimum exterior interceptor: 750 gallons to municipal sewer; 1,000 gallons to private onsite system.",
       "Sizing formula for restaurants: Seats × Hours (6–12) × Appliance Factor (0.75 / 1.0 / 1.25).",
       "All kitchen wastes only to exterior interceptor when one is provided.",
-      "Clean at intervals that prevent grease from passing through (often 90 days max)."
+      "Maintain interceptors on a cycle not to exceed 90 days or per manufacturer's instructions (SPS 382.34).",
+      "Any new or replacement exterior interceptor must have at least two compartments; grease/fat emulsifiers are prohibited in interceptors (SPS 382.34(5))."
     ]
   },
   desmoines: {
@@ -296,7 +299,7 @@ const details = {
     notes: [
       "Hydromechanical (indoor) grease interceptor allowed only with 4 or fewer fixtures and no commercial dishwasher or garbage disposal.",
       "Otherwise an outdoor gravity grease interceptor of at least 500 gallons is required.",
-      "Gravity units 750 gallons and larger require a minimum of three compartments and three manways.",
+      "Gravity units: 500 gallons require two compartments and two manways; 750 gallons and larger require a minimum of two compartments and three manways.",
       "Hydromechanical units must be cleaned at least every 30 days (never past 90 days).",
       "Gravity interceptors must be pumped at least every 3 months or when 25% full.",
       "Gravity interceptors must be installed outside unless specifically approved by the AHJ.",
@@ -311,7 +314,7 @@ const details = {
       "Minimum 750-gallon two-compartment gravity grease interceptor.",
       "Sizing may use Denver code method, 2006 UPC Appendix H, or Wastewater Management formula — most restrictive applies.",
       "Only kitchen/food-processing wastes allowed into the interceptor (no toilets or restroom fixtures).",
-      "Clean when FOG or solids reach 25% of depth or every 90 days, whichever comes first.",
+      "Gravity interceptors: pump and clean before FOG + solids reach 25% of total liquid capacity (DOTI ROWS Policy 14.0, eff. Jan 5, 2026; no fixed 90-day interval stated). Hydromechanical: per manufacturer or before FOG/solids reach 80% of storage capacity.",
       "Interceptor design must be included in the building permit application for review."
     ]
   },
@@ -347,7 +350,8 @@ const details = {
       "Minimum 1,000 gallons exterior underground gravity interceptor.",
       "Individual units limited to 2,000 gallons unless approved.",
       "30-minute detention time preferred where consistent with the code.",
-      "New FSEs must install compliant interceptor before beginning operations."
+      "New FSEs must install compliant interceptor before beginning operations.",
+      "Ordinance O2026-018 (adopted Oct 6, 2026) repeals and replaces City Code §52.10. Per Council meeting summaries: exterior interceptors pumped at least quarterly, interior traps inspected/cleaned weekly, applies to new and existing FSEs (retrofit on major renovation). Confirm against the adopted text."
     ]
   },
   roseville: {
@@ -357,7 +361,8 @@ const details = {
     notes: [
       "All new facilities that prepare and serve food must install a grease removal device.",
       "Existing facilities only required to install if the city documents they are causing FOG discharge problems.",
-      "Grease interceptors are typically outdoor/underground type (1,000–3,000 gallon range).",
+      "Grease interceptor must be a minimum 1,000-gallon capacity (City Code §802.15.D.1).",
+      "Interceptors: clean per the 25% rule or every 90 days, whichever is more frequent; grease traps every 14 days or as inspection requires. Keep a maintenance log on site for 3 years (§802.15.E–I).",
       "Follows Minnesota Plumbing Code for installation and sizing."
     ]
   },
@@ -438,14 +443,14 @@ const details = {
     title: "Shakopee, MN",
     summary: "Requires minimum 1,000-gallon exterior underground gravity interceptor for food service.",
     fixtures: [["3-Comp / Pot Sink", "Direct + tell-tale (MN rule)", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Direct + tell-tale allowed", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["Minimum 1,000 gallons exterior gravity.", "Individual units max 2,000 gallons unless approved.", "30-minute detention preferred."]
+    notes: ["Minimum 1,000 gallons exterior gravity.", "Individual units max 2,000 gallons unless approved.", "30-minute detention preferred.", "Ordinance O2026-018 (adopted Oct 6, 2026) replaced City Code §52.10: exterior interceptors pumped at least quarterly; interior traps weekly (per Council summaries; confirm adopted text)."]
   },
   // Wisconsin
   "wi-state": {
     title: "Wisconsin Statewide (SPS 382)",
     summary: "Own plumbing code. Strict indirect waste. Exterior interceptors have seat-based sizing and minimum capacities.",
     fixtures: [["3-Comp / Pot Sink", "Indirect (air gap/break)", "Grease"], ["Prep Sink", "Air gap; ≤30\" upstream", "Sanitary/Grease"], ["Dishwasher", "Air gap/break; ≤30\"", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["Wash compartment and pre-wash must go through interceptor.", "Rinse/sanitize sometimes allowed to bypass.", "Min 750 gal to municipal sewer; 1,000 gal to POWTS.", "Sizing formula: Seats × Hours × Appliance Factor."]
+    notes: ["Wash compartment and pre-wash must go through interceptor.", "Rinse/sanitize and food waste grinders may bypass only with interior interceptors; exterior interceptors take all kitchen wastes.", "Min 750 gal to municipal sewer; 1,000 gal to POWTS.", "Sizing formula: Seats × Hours × Appliance Factor.", "Maintain on a cycle not to exceed 90 days or per manufacturer's instructions.", "New/replacement exterior interceptors need at least two compartments; emulsifiers prohibited."]
   },
   milwaukee: {
     title: "Milwaukee / MMSD, WI",
@@ -456,9 +461,9 @@ const details = {
   // Iowa
   "ia-state": {
     title: "Iowa Statewide",
-    summary: "Adopts UPC. Standard indirect waste rules. Local pretreatment programs add stricter interceptor rules.",
+    summary: "Adopts the 2024 UPC with Iowa amendments (IAC 481—425, effective Mar 26, 2025; formerly 641—25). Standard indirect waste rules. Local pretreatment programs add stricter interceptor rules.",
     fixtures: [["3-Comp / Pot Sink", "Indirect", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Indirect", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["Many cities impose 1,000-gallon minimums.", "Hydromechanical units more restricted locally."]
+    notes: ["Many cities impose 1,000-gallon minimums.", "Hydromechanical units more restricted locally.", "Local jurisdictions may not adopt other plumbing codes; they may add amendments only if stricter than the state UPC (481—425.2).", "Iowa amends UPC 1014.1.3: commercial food waste disposers discharge into the drainage system as required by the AHJ (481—425.4(8)b)."]
   },
   desmoines: {
     title: "Des Moines / WRA, IA",
@@ -477,7 +482,7 @@ const details = {
     title: "Denver, CO",
     summary: "IPC-based with local FOG rules. Multiple sizing methods accepted; 750-gallon minimum for gravity.",
     fixtures: [["3-Comp / Pot Sink", "Indirect (IPC)", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Air gap/break", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["750-gallon two-compartment minimum for gravity.", "Sizing by Denver code, 2006 UPC Appendix H, or Wastewater Management formula.", "Clean at 25% or every 90 days."]
+    notes: ["750-gallon two-compartment minimum for gravity.", "Sizing by Denver code, 2006 UPC Appendix H, or Wastewater Management formula.", "Gravity: clean before 25% of liquid capacity (Policy 14.0, 2026; no fixed 90 days). Hydromechanical: per manufacturer or at 80% storage."]
   },
   coloradosprings: {
     title: "Colorado Springs, CO",
@@ -538,7 +543,7 @@ const details = {
     title: "Montana Statewide",
     summary: "Adopts UPC. Standard indirect waste and grease interceptor rules. Local cities run FOG programs.",
     fixtures: [["3-Comp / Pot Sink", "Usually indirect", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Indirect", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["Billings, Missoula, Bozeman, Great Falls, and Helena have active pretreatment/FOG programs.", "Verify local interceptor minimums and pumping schedules."]
+    notes: ["Billings, Missoula, Bozeman, Great Falls, and Helena have active pretreatment/FOG programs.", "Verify local interceptor minimums and pumping schedules.", "State plumbing code: 2024 UPC with Montana amendments (ARM Title 24, ch. 301), effective Sept 26, 2026."]
   },
   billings: {
     title: "Billings, MT",
@@ -550,13 +555,13 @@ const details = {
     title: "North Dakota Statewide",
     summary: "Adopts UPC. Local cities (especially Bismarck) have pretreatment programs.",
     fixtures: [["3-Comp / Pot Sink", "Usually indirect", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Indirect", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["Bismarck has a city pretreatment program with specific cleaning frequencies."]
+    notes: ["Bismarck has a city pretreatment program with specific cleaning frequencies.", "State plumbing code: 2018 UPC (\"2018 North Dakota Plumbing Code\", NDAC 62-03.1-01-01, effective Apr 1, 2020)."]
   },
   "sd-state": {
     title: "South Dakota Statewide",
     summary: "Statewide UPC. Larger cities may adopt IPC. Always confirm the city.",
     fixtures: [["3-Comp / Pot Sink", "Usually indirect", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Indirect", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["Sioux Falls and Rapid City often enforce IPC in addition to or instead of UPC.", "Verify local code and FOG rules before design."]
+    notes: ["Sioux Falls and Rapid City often enforce IPC in addition to or instead of UPC.", "Verify local code and FOG rules before design.", "State plumbing code: 2024 UPC with state exceptions (ARSD 20:54:02:01; adopted effective Oct 28, 2025)."]
   },
   "wy-state": {
     title: "Wyoming Statewide",
