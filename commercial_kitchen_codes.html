@@ -84,6 +84,11 @@
     <div id="fixturesContent"></div>
   </div>
 
+  <div id="explain" style="display:none;">
+    <button class="back" onclick="showHome()">← Back</button>
+    <div id="explainContent"></div>
+  </div>
+
   <div id="detail" style="display:none;">
     <button class="back" id="backToJur">← Back</button>
     <div id="detailContent"></div>
@@ -99,14 +104,12 @@ const states = [
   { id: "wy", name: "Wyoming", code: "IPC (local)" },
   { id: "mt", name: "Montana", code: "UPC" },
   { id: "nd", name: "North Dakota", code: "UPC" },
-  { id: "sd", name: "South Dakota", code: "UPC" },
-  { id: "az", name: "Arizona", code: "IPC (local)" }
+  { id: "sd", name: "South Dakota", code: "UPC" }
 ];
 
 const jurisdictions = {
   mn: [
     { id: "mn-state", name: "Statewide (MN Rules 4714)", note: "Base UPC with MN amendments" },
-    { id: "minneapolis", name: "Minneapolis", note: "FOG program; exterior preferred" },
     { id: "rochester", name: "Rochester", note: "Active FOG program; 90-day cleaning" },
     { id: "duluth", name: "Duluth / WLSSD", note: "Regional FOG ordinance" },
     { id: "bloomington", name: "Bloomington", note: "Local FOG rules" },
@@ -125,7 +128,7 @@ const jurisdictions = {
     { id: "edina", name: "Edina", note: "Local FOG" },
     { id: "stcloud", name: "St. Cloud", note: "Local FOG" },
     { id: "roseville", name: "Roseville", note: "FOG ordinance; interceptors ≤90-day cleaning" },
-    { id: "baxter", name: "Baxter", note: "Outdoor gravity preferred; traps restricted" },
+    { id: "baxter", name: "Baxter", note: "FSE interceptor; FOG trap for limited food service" },
     { id: "shakopee", name: "Shakopee", note: "1,000 gal minimum exterior" },
     { id: "redwing", name: "Red Wing", note: "Exterior gravity for new FSEs" },
     { id: "elkriver", name: "Elk River", note: "FOG program" },
@@ -227,24 +230,6 @@ const jurisdictions = {
     { id: "watertown", name: "Watertown", note: "Local FOG requirements" },
     { id: "mitchell", name: "Mitchell", note: "Local FOG" },
     { id: "pierre", name: "Pierre", note: "Local FOG" }
-  ],
-  az: [
-    { id: "az-state", name: "Statewide Overview", note: "Primarily IPC" },
-    { id: "phoenix", name: "Phoenix", note: "4-fixture limit on traps; 500 gal min gravity" },
-    { id: "tucson", name: "Tucson / Pima County", note: "300 gal min gravity; 4-fixture limit" },
-    { id: "mesa", name: "Mesa", note: "4 food-prep fixtures max for traps" },
-    { id: "chandler", name: "Chandler", note: "25% rule; 3-year records" },
-    { id: "scottsdale", name: "Scottsdale", note: "Only 50 gal/100 lb trap allowed" },
-    { id: "gilbert", name: "Gilbert", note: "Every 6 months minimum" },
-    { id: "glendale", name: "Glendale", note: "Pump every 180 days minimum" },
-    { id: "tempe", name: "Tempe", note: "4 fixtures or dishwasher → interceptor" },
-    { id: "peoria", name: "Peoria", note: "90-day minimum pumping" },
-    { id: "surprise", name: "Surprise", note: "750–2500 gal exterior" },
-    { id: "yuma", name: "Yuma", note: "Local FOG" },
-    { id: "avondale", name: "Avondale", note: "Local FOG" },
-    { id: "goodyear", name: "Goodyear", note: "Local FOG rules" },
-    { id: "flagstaff", name: "Flagstaff", note: "Local FOG" },
-    { id: "buckeye", name: "Buckeye", note: "Local FOG" }
   ]
 };
 
@@ -253,11 +238,11 @@ const details = {
   "mn-state": {
     title: "Minnesota Statewide",
     summary: "2020 Minnesota Plumbing Code (Minn. R. ch. 4714 = 2018 UPC with MN amendments, effective Dec 17, 2021). Pot/scullery and similar commercial sinks are connected directly with an adjacent tell-tale floor drain; commercial dishwashers go direct or through an air break.",
-    fixtures: [["3-Comp / Pot Sink", "Direct + tell-tale floor drain", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Direct + tell-tale, or air break", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
+    fixtures: [["3-Comp / Pot Sink", "Direct + tell-tale floor drain", "Grease"], ["Prep Sink", "Direct + tell-tale floor drain (MN rule)", "Grease"], ["Dishwasher", "Direct + tell-tale, or air break", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
     notes: [
       "Pot sinks, scullery sinks, commercial kitchen/dishwashing sinks, and commercial dishwashing machines shall be connected directly to the drainage system with an adjacent floor drain (tell-tale) that backs up first (MN Rules 4714.0704, UPC 704.3). Commercial dishwashers may alternatively discharge through an air break (4714.0414).",
       "Fixture drain must connect on the sewer side of the adjacent floor drain trap.",
-      "Prep sinks and ice machines still require a full air gap (minimum twice the pipe diameter).",
+      "Prep sinks (commercial kitchen sinks) are also connected directly with an adjacent tell-tale floor drain (MN Rules 4714.0704, UPC 704.3). Ice machines and other food-handling/ice-storage equipment still require a full air gap (minimum twice the pipe diameter) (4714.0801).",
       "Grease interceptor required for food service; size by DFU method per MN Rules 4714.",
       "Only greasy waste fixtures may discharge to the interceptor.",
       "Interceptor must be readily accessible for inspection and maintenance.",
@@ -292,20 +277,6 @@ const details = {
       "Applies to most metro cities under the WRA ordinance."
     ]
   },
-  phoenix: {
-    title: "Phoenix, AZ",
-    summary: "IPC with strong local FOG amendments. Fixture-count limits on hydromechanical units.",
-    fixtures: [["3-Comp / Pot Sink", "Indirect", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Must go to gravity interceptor", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: [
-      "Hydromechanical (indoor) grease interceptor allowed only with 4 or fewer fixtures and no commercial dishwasher or garbage disposal.",
-      "Otherwise an outdoor gravity grease interceptor of at least 500 gallons is required.",
-      "Gravity units: 500 gallons require two compartments and two manways; 750 gallons and larger require a minimum of two compartments and three manways.",
-      "Hydromechanical units must be cleaned at least every 30 days (never past 90 days).",
-      "Gravity interceptors must be pumped at least every 3 months or when 25% full.",
-      "Gravity interceptors must be installed outside unless specifically approved by the AHJ.",
-      "Enzymes and emulsifiers are prohibited as a substitute for pumping."
-    ]
-  },
   denver: {
     title: "Denver, CO",
     summary: "IPC-based with local FOG rules. Multiple sizing methods accepted; 750-gallon minimum for gravity.",
@@ -318,34 +289,25 @@ const details = {
       "Interceptor design must be included in the building permit application for review."
     ]
   },
-  minneapolis: {
-    title: "Minneapolis, MN",
-    summary: "Follows Minnesota Plumbing Code with an active FOG program requiring exterior interceptors for new food service.",
-    fixtures: [["3-Comp / Pot Sink", "Direct + tell-tale (MN rule)", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Direct + tell-tale allowed", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: [
-      "New food service establishments must install an exterior grease interceptor before discharge is allowed.",
-      "Only fixtures that produce greasy waste may be piped to the interceptor.",
-      "Interceptor must be located outside the building for unrestricted access.",
-      "Multiple FSEs on one parcel may share one interceptor if practicable.",
-      "Follows Minnesota direct-connection + tell-tale floor drain rule for pot sinks and dishwashers."
-    ]
-  },
   baxter: {
     title: "Baxter, MN",
-    summary: "Outdoor gravity FOG interceptor preferred. Under-sink traps restricted for new businesses.",
-    fixtures: [["3-Comp / Pot Sink", "Direct + tell-tale (MN rule)", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Direct + tell-tale allowed", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
+    summary: "City Code §8-2-11: food service establishments (FSEs) must install an approved, adequately sized outdoor FOG interceptor; limited food-service establishments (LFSEs) are not required to have an interceptor but must install an approved FOG trap.",
+    fixtures: [["3-Comp / Pot Sink", "Direct + tell-tale (MN rule)", "Grease"], ["Prep Sink", "Direct + tell-tale floor drain (MN rule)", "Grease"], ["Dishwasher", "Direct + tell-tale allowed", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
     notes: [
-      "As of 2026, FOG traps are no longer allowed in new businesses.",
-      "All FSEs shall install an outdoor gravity FOG interceptor unless not feasible (financial reasons do not count).",
-      "Hydromechanical interceptors only allowed if outdoor gravity is not feasible, with administrative approval.",
-      "Sized by DFU method per Minnesota Plumbing Code.",
-      "No restroom or food grinder wastewater to the interceptor."
+      "FSEs must install, operate, and maintain an approved FOG interceptor adequately sized for the facility; no FSE wastewater may reach the sewer without passing through a FOG interceptor.",
+      "LFSEs are not required to install an interceptor but must install, operate, and maintain an approved FOG trap; new LFSEs must submit the trap design with the building permit application.",
+      "Interceptors must be outside the building, buried or protected from freezing, with access ports and readily accessible for cleaning.",
+      "Interceptors receive only food-service fixtures; no toilets, lavatories, or bathroom drains. Food grinders are prohibited in FSEs and LFSEs.",
+      "Variance: if an interceptor is not feasible (not solely for financial reasons), the city may allow an interior FOG trap or traps.",
+      "Inspect and pump at least every 90 days (extension possible with inspection records showing under 25% full over 12 months); clean when at or above 25% full. Send pumping records to the city within 5 days.",
+      "FOG discharge limit 100 mg/L average. Design per the Baxter FOG design manual and Minnesota Plumbing Code.",
+      "Note: the city's 2/4/2026 FOG manuals say traps are no longer allowed in new businesses; this reference follows the code text (§8-2-11)."
     ]
   },
   shakopee: {
     title: "Shakopee, MN",
     summary: "Requires minimum 1,000-gallon exterior underground gravity interceptor for food service.",
-    fixtures: [["3-Comp / Pot Sink", "Direct + tell-tale (MN rule)", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Direct + tell-tale allowed", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
+    fixtures: [["3-Comp / Pot Sink", "Direct + tell-tale (MN rule)", "Grease"], ["Prep Sink", "Direct + tell-tale floor drain (MN rule)", "Grease"], ["Dishwasher", "Direct + tell-tale allowed", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
     notes: [
       "Minimum 1,000 gallons exterior underground gravity interceptor.",
       "Individual units limited to 2,000 gallons unless approved.",
@@ -357,7 +319,7 @@ const details = {
   roseville: {
     title: "Roseville, MN",
     summary: "FOG ordinance requires grease removal devices for all facilities that prepare and serve food.",
-    fixtures: [["3-Comp / Pot Sink", "Direct + tell-tale (MN rule)", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Direct + tell-tale allowed", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
+    fixtures: [["3-Comp / Pot Sink", "Direct + tell-tale (MN rule)", "Grease"], ["Prep Sink", "Direct + tell-tale floor drain (MN rule)", "Grease"], ["Dishwasher", "Direct + tell-tale allowed", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
     notes: [
       "All new facilities that prepare and serve food must install a grease removal device.",
       "Existing facilities only required to install if the city documents they are causing FOG discharge problems.",
@@ -389,39 +351,6 @@ const details = {
       "Plans showing fixtures must be submitted to confirm interceptor size."
     ]
   },
-  tempe: {
-    title: "Tempe, AZ",
-    summary: "Every FSE needs a trap or interceptor. Dishwasher or >4 fixtures forces gravity interceptor.",
-    fixtures: [["3-Comp / Pot Sink", "Indirect", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Forces gravity interceptor", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: [
-      "Hydromechanical trap (minimum 50 gpm / 100 lb) allowed only when there are 4 or fewer kitchen fixtures and no commercial dishwasher.",
-      "Gravity interceptor required when more than 4 fixtures or a commercial dishwasher is present.",
-      "Gravity interceptors: 500–2,500 gallons, located outside.",
-      "Traps serviced monthly; interceptors quarterly by a licensed hauler."
-    ]
-  },
-  scottsdale: {
-    title: "Scottsdale, AZ",
-    summary: "Strict: only one size of hydromechanical allowed, and only for ≤4 food-prep fixtures.",
-    fixtures: [["3-Comp / Pot Sink", "Indirect", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Must go to gravity", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: [
-      "Only a 50-gallon / 100-lb hydromechanical grease interceptor is allowed.",
-      "Permitted only with 4 or fewer food-prep fixtures and no dishwasher.",
-      "Any dishwasher requires a gravity interceptor.",
-      "Gravity interceptors located outside; dishwashers cannot connect to traps.",
-      "Maintenance records must be kept on site for a minimum of 3 years."
-    ]
-  },
-  tucson: {
-    title: "Tucson / Pima County, AZ",
-    summary: "Pima County RWRD Grease Management Program. 4-fixture limit on hydromechanical; gravity for larger or dishwasher kitchens.",
-    fixtures: [["3-Comp / Pot Sink", "Indirect", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Usually forces gravity", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: [
-      "Hydromechanical allowed for 4 or fewer fixtures (minimum 25 gpm / 50 lb).",
-      "Gravity interceptor (typically ≥300 gallons) required when more than 4 fixtures or when a dishwasher or food waste disposal is present.",
-      "Clean at least every 6 months or when buildup reaches 25% of capacity."
-    ]
-  },
   grandjunction: {
     title: "Grand Junction, CO",
     summary: "FOG Sector Control Policy. Minimum sizes for both hydromechanical and gravity units.",
@@ -433,25 +362,7 @@ const details = {
       "All appropriate kitchen fixtures must be connected."
     ]
   },
-  baxter: {
-    title: "Baxter, MN",
-    summary: "Outdoor gravity FOG interceptor preferred. Under-sink traps restricted for new businesses.",
-    fixtures: [["3-Comp / Pot Sink", "Direct + tell-tale (MN rule)", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Direct + tell-tale allowed", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["As of 2026, FOG traps no longer allowed in new businesses.", "Outdoor gravity preferred; hydromechanical only if outdoor not feasible.", "Sized by DFU per MN code."]
-  },
-  shakopee: {
-    title: "Shakopee, MN",
-    summary: "Requires minimum 1,000-gallon exterior underground gravity interceptor for food service.",
-    fixtures: [["3-Comp / Pot Sink", "Direct + tell-tale (MN rule)", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Direct + tell-tale allowed", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["Minimum 1,000 gallons exterior gravity.", "Individual units max 2,000 gallons unless approved.", "30-minute detention preferred.", "Ordinance O2026-018 (adopted Oct 6, 2026) replaced City Code §52.10: exterior interceptors pumped at least quarterly; interior traps weekly (per Council summaries; confirm adopted text)."]
-  },
   // Wisconsin
-  "wi-state": {
-    title: "Wisconsin Statewide (SPS 382)",
-    summary: "Own plumbing code. Strict indirect waste. Exterior interceptors have seat-based sizing and minimum capacities.",
-    fixtures: [["3-Comp / Pot Sink", "Indirect (air gap/break)", "Grease"], ["Prep Sink", "Air gap; ≤30\" upstream", "Sanitary/Grease"], ["Dishwasher", "Air gap/break; ≤30\"", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["Wash compartment and pre-wash must go through interceptor.", "Rinse/sanitize and food waste grinders may bypass only with interior interceptors; exterior interceptors take all kitchen wastes.", "Min 750 gal to municipal sewer; 1,000 gal to POWTS.", "Sizing formula: Seats × Hours × Appliance Factor.", "Maintain on a cycle not to exceed 90 days or per manufacturer's instructions.", "New/replacement exterior interceptors need at least two compartments; emulsifiers prohibited."]
-  },
   milwaukee: {
     title: "Milwaukee / MMSD, WI",
     summary: "MMSD enforces FOG across the metro. Follows SPS 382 with active local program.",
@@ -465,79 +376,18 @@ const details = {
     fixtures: [["3-Comp / Pot Sink", "Indirect", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Indirect", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
     notes: ["Many cities impose 1,000-gallon minimums.", "Hydromechanical units more restricted locally.", "Local jurisdictions may not adopt other plumbing codes; they may add amendments only if stricter than the state UPC (481—425.2).", "Iowa amends UPC 1014.1.3: commercial food waste disposers discharge into the drainage system as required by the AHJ (481—425.4(8)b)."]
   },
-  desmoines: {
-    title: "Des Moines / WRA, IA",
-    summary: "Wastewater Reclamation Authority requires minimum 1,000-gallon gravity interceptors for most food service.",
-    fixtures: [["3-Comp / Pot Sink", "Indirect", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Indirect", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["1,000 gallon minimum; max 5,000 per unit (series allowed).", "Exterior below-grade preferred.", "Pump every 90 days or at 25% capacity.", "Applies to most metro cities under WRA."]
-  },
-  siouxcity: {
-    title: "Sioux City, IA",
-    summary: "Strict FOG program with 25% rule and frequent pumping for traps.",
-    fixtures: [["3-Comp / Pot Sink", "Indirect", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Indirect", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["Hydromechanical traps: weekly or at 25%, whichever first.", "Gravity interceptors: at 25% capacity.", "New FSEs after 2015 require properly sized grease control."]
-  },
   // Colorado
-  denver: {
-    title: "Denver, CO",
-    summary: "IPC-based with local FOG rules. Multiple sizing methods accepted; 750-gallon minimum for gravity.",
-    fixtures: [["3-Comp / Pot Sink", "Indirect (IPC)", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Air gap/break", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["750-gallon two-compartment minimum for gravity.", "Sizing by Denver code, 2006 UPC Appendix H, or Wastewater Management formula.", "Gravity: clean before 25% of liquid capacity (Policy 14.0, 2026; no fixed 90 days). Hydromechanical: per manufacturer or at 80% storage."]
-  },
-  coloradosprings: {
-    title: "Colorado Springs, CO",
-    summary: "IPC with local FOG manual. Minimum volumes and dishwasher rules.",
-    fixtures: [["3-Comp / Pot Sink", "Indirect", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Air gap/break", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["Minimum 325 gallons; 1,000 gallons if dishwasher present.", "All kitchen, prep, and dishwashing drains to interceptor.", "Indoor traps limited; not for dishwashers or disposals."]
-  },
-  // Arizona
-  phoenix: {
-    title: "Phoenix, AZ",
-    summary: "IPC with strong local FOG amendments. Fixture-count limits on hydromechanical units.",
-    fixtures: [["3-Comp / Pot Sink", "Indirect", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Must go to gravity interceptor", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["Hydromechanical allowed only with ≤4 fixtures and no dishwasher or disposal.", "Otherwise outdoor gravity ≥500 gallons.", "Traps cleaned monthly; gravity at least every 3 months or at 25%.", "Gravity units must be outside unless approved."]
-  },
-  tempe: {
-    title: "Tempe, AZ",
-    summary: "Every FSE needs a trap or interceptor. Dishwasher or >4 fixtures forces gravity interceptor.",
-    fixtures: [["3-Comp / Pot Sink", "Indirect", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Forces gravity interceptor", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["Trap (min 50 gpm/100 lb) only for ≤4 kitchen fixtures and no commercial dishwasher.", "Interceptor: 500–2,500 gallons, outside.", "Traps monthly; interceptors quarterly."]
-  },
-  scottsdale: {
-    title: "Scottsdale, AZ",
-    summary: "Strict: only one size of hydromechanical allowed, and only for ≤4 food-prep fixtures.",
-    fixtures: [["3-Comp / Pot Sink", "Indirect", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Must go to gravity", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["Only 50 gal / 100 lb hydromechanical allowed.", "≤4 food-prep fixtures and no dishwasher.", "Gravity interceptors outside; dishwashers cannot go to traps."]
-  },
   rochester: {
     title: "Rochester, MN",
     summary: "Follows Minnesota Plumbing Code with a local FOG program. New food service establishments require an approved grease interceptor.",
-    fixtures: [["3-Comp / Pot Sink", "Direct + tell-tale floor drain (MN rule)", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Direct + tell-tale allowed", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
+    fixtures: [["3-Comp / Pot Sink", "Direct + tell-tale floor drain (MN rule)", "Grease"], ["Prep Sink", "Direct + tell-tale floor drain (MN rule)", "Grease"], ["Dishwasher", "Direct + tell-tale allowed", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
     notes: [
       "New food service establishments must install an approved grease interceptor before discharge.",
       "All drains in food service areas that can introduce FOG must connect to the grease removal device.",
       "Follows Minnesota Rules for direct connection of pot sinks and dishwashers when an adjacent tell-tale floor drain is provided.",
-      "Prep sinks and ice machines still require a full air gap.",
+      "Prep sinks also connect directly with a tell-tale floor drain; ice machines still require a full air gap.",
       "Exemption process exists for low-FOG operations."
     ]
-  },
-  tucson: {
-    title: "Tucson / Pima County, AZ",
-    summary: "Pima County RWRD Grease Management Program. 4-fixture limit on hydromechanical; gravity for larger or dishwasher kitchens.",
-    fixtures: [["3-Comp / Pot Sink", "Indirect", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Usually forces gravity", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["Hydromechanical allowed for ≤4 fixtures (min 25 gpm / 50 lb).", "Gravity interceptors typically ≥300 gallons when >4 fixtures or dishwasher/disposal present.", "Clean at least every 6 months or at 25% capacity."]
-  },
-  chandler: {
-    title: "Chandler, AZ",
-    summary: "Requires FOG treatment devices for food prep/packaging. Emphasizes 25% rule and record keeping.",
-    fixtures: [["3-Comp / Pot Sink", "Indirect", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Per local rules", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["Clean before grease and solids reach 25% of capacity.", "Enzymes and bacteria prohibited as substitutes for pumping.", "Maintenance records kept on site for 3 years."]
-  },
-  grandjunction: {
-    title: "Grand Junction, CO",
-    summary: "FOG Sector Control Policy. Minimum sizes for both hydromechanical and gravity units.",
-    fixtures: [["3-Comp / Pot Sink", "Indirect (IPC)", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Air gap/break", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["Minimum gravity interceptor 750 gallons.", "Hydromechanical minimums are high-capacity (100+ gpm).", "Located outside between kitchen plumbing and sanitary sewer."]
   },
   "mt-state": {
     title: "Montana Statewide",
@@ -569,22 +419,16 @@ const details = {
     fixtures: [["3-Comp / Pot Sink", "Indirect (IPC)", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Air gap/break", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
     notes: ["Cheyenne has a BOPU FOG program with 90-day or directed pumping schedules."]
   },
-  "az-state": {
-    title: "Arizona Statewide Overview",
-    summary: "Primarily IPC with heavy local FOG amendments in the Valley cities.",
-    fixtures: [["3-Comp / Pot Sink", "Indirect", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Usually forces gravity interceptor", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["Most Valley cities limit hydromechanical to ≤4 fixtures and no dishwasher.", "Outdoor gravity interceptors common (500–2,500 gal range).", "Always check the specific city."]
-  },
   duluth: {
     title: "Duluth / WLSSD, MN",
     summary: "Western Lake Superior Sanitary District FOG ordinance applies to Duluth and surrounding communities.",
-    fixtures: [["3-Comp / Pot Sink", "Direct + tell-tale (MN rule)", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Direct + tell-tale allowed", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
+    fixtures: [["3-Comp / Pot Sink", "Direct + tell-tale (MN rule)", "Grease"], ["Prep Sink", "Direct + tell-tale floor drain (MN rule)", "Grease"], ["Dishwasher", "Direct + tell-tale allowed", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
     notes: ["Grease interceptors required at all new FOG-generating facilities.", "Sized and installed per Minnesota Plumbing Code.", "Applies to Duluth, Hermantown, Proctor, and other WLSSD communities."]
   },
   eagan: {
     title: "Eagan, MN",
     summary: "FOG ordinance requires exterior gravity interceptor for new food service establishments.",
-    fixtures: [["3-Comp / Pot Sink", "Direct + tell-tale (MN rule)", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Direct + tell-tale allowed", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
+    fixtures: [["3-Comp / Pot Sink", "Direct + tell-tale (MN rule)", "Grease"], ["Prep Sink", "Direct + tell-tale floor drain (MN rule)", "Grease"], ["Dishwasher", "Direct + tell-tale allowed", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
     notes: ["New FSEs must install an exterior gravity grease interceptor meeting Minnesota Plumbing Code.", "Only greasy waste fixtures to the interceptor."]
   },
   madison: {
@@ -610,30 +454,6 @@ const details = {
     summary: "South Fort Collins Sanitation District FOG policy. Exterior gravity interceptors preferred.",
     fixtures: [["3-Comp / Pot Sink", "Indirect (IPC)", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Air gap/break", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
     notes: ["Gravity interceptors minimum 750 gallons with two compartments.", "Accessible exterior location required.", "Pumping at least every 90 days.", "New FSEs must submit drawings for review."]
-  },
-  mesa: {
-    title: "Mesa, AZ",
-    summary: "Hydromechanical traps limited to 4 or fewer food-prep fixtures; dishwasher forces gravity interceptor.",
-    fixtures: [["3-Comp / Pot Sink", "Indirect", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Forces gravity interceptor", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["Indoor trap only with 4 or fewer food-prep fixtures.", "Any commercial dishwasher requires a gravity interceptor.", "Gravity interceptors 500–2,500 gallons; 750+ needs three chambers."]
-  },
-  glendale: {
-    title: "Glendale, AZ",
-    summary: "FOG control devices required; longer minimum pumping interval.",
-    fixtures: [["3-Comp / Pot Sink", "Indirect", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Per local rules", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["Minimum pumping every 180 days.", "No decanting of grease back into the device.", "Enzymes cannot substitute for cleaning.", "Records kept three years."]
-  },
-  gilbert: {
-    title: "Gilbert, AZ",
-    summary: "FOG pretreatment devices required; six-month minimum cleaning.",
-    fixtures: [["3-Comp / Pot Sink", "Indirect", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Per local rules", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["Entire contents removed at least every six months.", "Devices must be easily accessible.", "Installed on the premises where grease is generated."]
-  },
-  peoria: {
-    title: "Peoria, AZ",
-    summary: "FOG devices required with 90-day minimum pumping.",
-    fixtures: [["3-Comp / Pot Sink", "Indirect", "Grease"], ["Prep Sink", "Air gap", "Sanitary/Grease"], ["Dishwasher", "Per local rules", "Grease"], ["Ice Machine", "Air gap", "Sanitary"]],
-    notes: ["Pumped or cleaned completely at least every 90 days.", "More frequent if required by the director."]
   },
   missoula: {
     title: "Missoula, MT",
@@ -724,7 +544,7 @@ function showFixtures() {
     </div>
     <div class="section">
       <h3>Commercial Dishwasher</h3>
-      <div class="note">High-temperature or chemical dishwashers. Almost always require an indirect connection (air gap or air break) and go to the grease interceptor. In Minnesota they can sometimes connect directly with a tell-tale floor drain. Many cities force a gravity interceptor if a dishwasher is present.</div>
+      <div class="note">High-temperature or chemical dishwashers. Almost always require an indirect connection (air gap or air break) and go to the grease interceptor. In Minnesota they connect directly (or through an air break) with a tell-tale floor drain. Many cities force a gravity interceptor if a dishwasher is present.</div>
     </div>
     <div class="section">
       <h3>Pre-wash / Pre-rinse Sink</h3>
@@ -784,7 +604,7 @@ function showExplain() {
         <thead><tr><th>Level</th><th>What it controls</th><th>Examples</th></tr></thead>
         <tbody>
           <tr><td>State plumbing code</td><td>How you pipe fixtures (indirect waste, air gaps, tell-tale floor drains, pipe sizes)</td><td>MN Rules 4714, WI SPS 382, UPC, IPC</td></tr>
-          <tr><td>Local ordinance / pretreatment program</td><td>What happens to the wastewater after it leaves the building, especially fats, oils, and grease (FOG)</td><td>Minneapolis FOG program, Des Moines WRA, Phoenix FOG manual, Colorado Springs Utilities</td></tr>
+          <tr><td>Local ordinance / pretreatment program</td><td>What happens to the wastewater after it leaves the building, especially fats, oils, and grease (FOG)</td><td>Des Moines WRA, Colorado Springs Utilities, Rochester FOG program</td></tr>
         </tbody>
       </table>
       <p style="margin-top:1rem;">The plumbing code tells you <strong>how</strong> to connect a 3-compartment sink or dishwasher.<br>
